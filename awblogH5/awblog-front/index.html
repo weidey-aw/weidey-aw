@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/src/assets/favicon.ico">
+      <link rel="stylesheet" type="text/css" href="/src/style/index.css" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>阿伟博客</title>
+  </head>
+  <body id="backColor" >
+    <div id="app" >
+        <!-- 动画节点 -->
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+            <div class="load_title">正在加载,请耐心等待</div>
+        </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+
+<style>
+     /** 页面背景色**/
+    #backColor{
+        background: #f2f3f5;
+        background-image: linear-gradient(90deg,rgba(159,219,252,.15) 3%,transparent 0),linear-gradient(1turn,rgba(159,219,252,.15) 3%,transparent 0);
+        background-size: 20px 20px;
+        background-position: 50%;
+        width: auto!important;
+        //overflow: hidden;
+    }
+     img[alt]:focus {
+         outline: none;
+     }
+     *{
+         padding: 0;
+         margin: 0;
+     }
+</style>
+</html>
