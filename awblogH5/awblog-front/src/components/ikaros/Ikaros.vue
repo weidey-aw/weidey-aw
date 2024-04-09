@@ -1,8 +1,6 @@
 <script setup>
 import { ref} from "vue";
 import audio from "@/assets/audio/audio.json"
-import {verifyToken} from "@/api/client/user";
-import {ElMessage} from "element-plus";
 
 const ikaros = ref(null);
 const chat = ref(null);
@@ -18,16 +16,16 @@ const chatData =  ref({
 })
 // 加载
 const load = () => {
-  let token = localStorage.getItem('token');
-  if (token) {
-    verifyToken().then(res => {
-      if (res.code==='200'){
-        if (res.data ==='admin' ){
-          isShow = true;
-        }
-       }
-    })
-  }
+  // let token = localStorage.getItem('token');
+  // if (token) {
+  //   // verifyToken().then(res => {
+  //   //   if (res.code==='200'){
+  //   //     if (res.data ==='admin' ){
+  //   //       isShow = true;
+  //   //     }
+  //   //    }
+  //   // })
+  // }
 }
 load();
 //点击

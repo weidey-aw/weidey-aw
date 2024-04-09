@@ -2,60 +2,39 @@
 import {computed, ref} from "vue";
 import {Edit, Message, Star} from "@element-plus/icons-vue";
 const circleUrl =ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png');
-let isLogin =ref(false);
-let user =ref(JSON.parse(localStorage.getItem("user")));
 import avatarSvg from '@/assets/svg/avatar.svg';
 
-const load = () => {
-  getLocalUser();
+// 全局状态
+import {useUserStore} from "@/store/modules/user";
+const store = useUserStore();
+
+function isLogin(){
+   return store.isLogin();
 }
 
-function  getLocalUser(){
-  if(user.value!=null ){
-    isLogin =true;
+const filteredRemark =  computed(() => {
+  if (store.remark === "" ||store.remark == null ){
+    return  "还没有备注";
   }
-}
-load();
-
-const filteredRole = computed(() => {
-  if (user.value.role === 'user') {
-    return '普通用户';
-  }
-  if (user.value.role === 'admin'){
-    return "站长"
-  }
-  else {
-    return '还没有称号';
-  }
+  return store.remark ;
 });
 
 const filteredURL = computed(() => {
-  if (user.value.avatarUrl !== null) {
-    return user.value.avatarUrl;
+  if (store.avatar === "" || store.avatar == null) {
+    return  avatarSvg;
   }
   else {
-    return circleUrl.value;
+    return store.avatar;
   }
 });
-
 
 const filteredName = computed(() => {
-  if( user.value.nickname !== null) {
-    return  user.value.nickname;
-  }
-  else if(user.value.username!==null) {
-   return user.value.username
- }
-  else if(user.value.email!==null){
-    return user.value.email;
-  }
-  else {
-    return "欢迎您!"
-  }
-});
-
-
-
+   if(store.name === '' || store.name === null){
+     return "游客";
+   }else {
+     return store.name;
+   }
+})
 </script>
 
 <template>
@@ -65,12 +44,12 @@ const filteredName = computed(() => {
       <div class="card-header" v-if="isLogin" >
 
         <div class="row" >
-          <div class="col-6" >
-             <img :src="filteredURL"  >
+          <div class="col-4" >
+             <img :src="filteredURL" style="margin-right: 10px" >
           </div>
 
-          <div class="col-6" >
-            <p style="margin-bottom: 0rem !important;" ><span>{{filteredName}}</span><p style="font-size: 10px;color:#8a8a8a" >{{filteredRole}}</p></p>
+          <div class="col-8" >
+            <p style="margin-bottom: 0rem !important;" ><span>{{filteredName}}</span><p style="font-size: 10px;color:#8a8a8a" >{{filteredRemark}}</p></p>
           </div>
         </div>
 

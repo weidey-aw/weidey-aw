@@ -1,17 +1,5 @@
-package com.weidey.web.controller.common;
+package com.weidey.web.controller.tool;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
-
-import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.FastByteArrayOutputStream;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.google.code.kaptcha.Producer;
 import com.weidey.common.config.RuoYiConfig;
 import com.weidey.common.constant.CacheConstants;
@@ -21,15 +9,27 @@ import com.weidey.common.core.redis.RedisCache;
 import com.weidey.common.utils.sign.Base64;
 import com.weidey.common.utils.uuid.IdUtils;
 import com.weidey.system.service.ISysConfigService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FastByteArrayOutputStream;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * 验证码操作处理
- * 
- * @author ruoyi
- */
+import javax.annotation.Resource;
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+
+@Api
+@RequestMapping("/test/user")
 @RestController
-public class CaptchaController
-{
+public class TestCaptchaCode {
+
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
 
@@ -38,13 +38,14 @@ public class CaptchaController
 
     @Autowired
     private RedisCache redisCache;
-    
+
     @Autowired
     private ISysConfigService configService;
     /**
      * 生成验证码
      */
 
+    @ApiOperation("生成验证码")
     @GetMapping("/captchaImage")
     public AjaxResult getCode(HttpServletResponse response) throws IOException
     {
@@ -94,4 +95,6 @@ public class CaptchaController
         ajax.put("img", Base64.encode(os.toByteArray()));
         return ajax;
     }
+
+
 }

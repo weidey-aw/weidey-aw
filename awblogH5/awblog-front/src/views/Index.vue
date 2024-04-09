@@ -5,7 +5,6 @@ import IndexFooter from "@/views/framework/Footer.vue";
 import IndexMain from "@/views/framework/Main.vue";
 </script>
 
-
 <template>
   <div class="common-layout">
     <el-container>

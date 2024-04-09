@@ -1,6 +1,5 @@
 <script>
 import Empty from "@/views/container/tables/empty.vue";
-import {selectPage} from "@/api/client/atlas";
 
 export default {
   name: "photos",

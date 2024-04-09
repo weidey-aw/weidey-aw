@@ -1,7 +1,10 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import {verifyToken} from "@/api/client/user";
 import {ElMessage} from "element-plus";
-
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+import {getToken} from "@/utils/tools/auth";
+import {isRelogin} from "@/utils/request";
+import {useUserStore} from "@/store/modules/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,33 +43,51 @@ const router = createRouter({
   ]
 })
 
+
+NProgress.configure({ showSpinner: false })
 const whiteList = ['/index',"/login","/empty","/index/home"]
 router.beforeEach((to, from, next) =>{
+  const store = useUserStore();
   // 设置页面标题
   document.title = (to.meta.title ? to.meta.title : '');
+  //设置页面切换进度条
+  NProgress.start();
   // 判断是否访问白名单
   if (whiteList.includes(to.path)){
+    NProgress.done()
     next()
   }else {
     // 判断是否登录
-    let token = localStorage.getItem('token');
-    if (token !=null){
-      verifyToken().then(res=>{
-        if (res.code==='200'){
-          next()
-        }else {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          localStorage.removeItem('role');
-          ElMessage.warning("登录已过期，请重新登录")
-          next({
-            path:'/index'
+    if (getToken()){
+         //是否出现登录的弹窗
+        isRelogin.show = true;
+        //拿登录状态,判断有没有路由
+        if (store.roles.length===0){
+          store.GetInfo().then(()=>{
+            isRelogin.show = false
+            next();
+            NProgress.done()
+          }).catch(err=>{
+            isRelogin.show = true;
+            store.LogOut().then(()=>{
+              next({
+                path:'/index'
+              })
+              NProgress.done()
+              ElMessage.info("登录过期");
+              NProgress.done()
+            });
           })
+        }else {
+          NProgress.done()
+          next();
         }
-      })
-    } //没有token
+    }
+    //没有token
     else {
-      ElMessage.info("请先登录")
+      NProgress.done()
+      NProgress.done()
+      ElMessage.info("请先登录");
       next({
         path:'/index'
       })

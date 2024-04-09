@@ -1,9 +1,8 @@
 <script lang="ts"  setup>
 
 import {ref} from "vue";
-import {registerEmailApi} from "@/api/system/register";
 import {reactive} from "vue";
-import {ElMessage, ElNotification, FormInstance, FormRules} from "element-plus";
+import {ElNotification, FormInstance, FormRules} from "element-plus";
 import GetCodeButton from "@/components/client/common/GetCodeButton.vue";
 const updateDialog = 'update:dialog';
 const emits = defineEmits([updateDialog]);
@@ -85,14 +84,14 @@ function register_fun(){
         email:registerFrom.value.email,
         code:registerFrom.value.code
       }
-      registerEmailApi(data).then(res=>{
-        if (res.code === "200"){
-          login_success(res)
-        }else {
-          const mag = res.msg;
-          ElMessage.error(mag);
-        }
-      })
+      // registerEmailApi(data).then(res=>{
+      //   if (res.code === "200"){
+      //     login_success(res)
+      //   }else {
+      //     const mag = res.msg;
+      //     ElMessage.error(mag);
+      //   }
+      // })
     }
   })
 }

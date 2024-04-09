@@ -8,6 +8,7 @@ import cache from '@/plugins/cache'
 import { saveAs } from 'file-saver'
 
 let downloadLoadingInstance;
+
 // 是否显示重新登录
 export let isRelogin = { show: false };
 
@@ -26,6 +27,8 @@ service.interceptors.request.use(config => {
   const isToken = (config.headers || {}).isToken === false
   // 是否需要防止数据重复提交
   const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
+
+  //检查请求头中是否设置了token字段
   if (getToken() && !isToken) {
     config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
@@ -36,6 +39,8 @@ service.interceptors.request.use(config => {
     config.params = {};
     config.url = url;
   }
+
+  //检查请求头中是否设置了repeatSubmit字段，并判断其值是否为false。如果不是false，则意味着不需要防止数据重复提交。
   if (!isRepeatSubmit && (config.method === 'post' || config.method === 'put')) {
     const requestObj = {
       url: config.url,
@@ -67,7 +72,6 @@ service.interceptors.request.use(config => {
   }
   return config
 }, error => {
-    console.log(error)
     Promise.reject(error)
 })
 

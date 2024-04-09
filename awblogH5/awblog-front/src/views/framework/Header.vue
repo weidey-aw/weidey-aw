@@ -1,6 +1,5 @@
 <script setup >
-import {computed, inject, ref} from "vue";
-import {loginOut} from "@/api/client/user";
+import {inject, ref} from "vue";
 import Login from "@/views/model/user_diaog/login.vue";
 import Forget from "@/views/model/user_diaog/forget.vue";
 import Register from "@/views/model/user_diaog/register.vue";
@@ -9,6 +8,9 @@ let dialogVisible = ref(false);
 let dialogValue = ref("login");
 const reload = inject("reload");
 let drawer =  ref(false);
+// 全局状态
+import {useUserStore} from "@/store/modules/user";
+const store = useUserStore();
 
 
 function register_f(){
@@ -20,16 +22,12 @@ function login_f(){
   dialogValue.value = "login";
 }
 function outLogin(){
-  loginOut().then(res=>{
-    if (res==='200'){
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      localStorage.removeItem("tokenStartTime");
-    }
-  })
+  store.FedLogOut();
   reload();
 }
-
+function  isLogin(){
+  return store.isLogin
+}
 const changeDrawer = () =>  drawer.value = !drawer.value;
 
 //弹出窗
@@ -41,7 +39,6 @@ function dialog(newValue){
 function handleClose(){
   dialogVisible.value =false;
 }
-
 </script>
 
 <template>
@@ -49,7 +46,7 @@ function handleClose(){
         <div class="container user-select-none" >
           <nav class="navbar navbar-expand-lg">
             <div class="container-fluid row ">
-              <div class="col-6">
+              <div class="col-6" >
                 <button @click="changeDrawer"   class="navbar-toggler" type="button" data-bs-target="#navbarSupportedContent">
                   <span class="navbar-toggler-icon" style="font-size: 12px; border: none;" ></span>
                 </button>
@@ -72,14 +69,34 @@ function handleClose(){
               <div  class="col-6">
                 <div class="grid-content">
                   <div class="ep-bg-purple-light">
-                    <div  style="display: flex;justify-content: flex-end;" >
+                    <div v-if="isLogin()" style="display: flex;justify-content: flex-end;">
+                      <el-dropdown>
+                        <div class="el-dropdown-link" style="display: inline-flex" >
+                          <div class="m-1 align-items-center" >
+                            {{ store.name }}
+                          </div>
+                          <div class="">
+                            <el-avatar :src="store.avatar" :size="42" > </el-avatar>
+                          </div>
+                        </div>
+
+                        <template #dropdown>
+                          <el-dropdown-menu>
+                            <el-dropdown-item @click="$router.push('/login')" ><el-icon><Operation /></el-icon>控制台</el-dropdown-item>
+                            <el-dropdown-item  @click="$router.push('/index/personal')"><el-icon><Avatar/></el-icon>个人中心</el-dropdown-item>
+                            <el-dropdown-item @click="outLogin" ><el-icon><SwitchButton /></el-icon>退出登录</el-dropdown-item>
+                          </el-dropdown-menu>
+                        </template>
+                      </el-dropdown>
+                    </div>
+                    <div v-else style="display: flex;justify-content: flex-end;" >
                       <strong class="small  " @click="register_f" style="margin-right: 5px" >注册</strong>
                       <strong class="small" @click="login_f" >登录</strong>
                     </div>
                   </div>
                 </div>
+                </div>
               </div>
-            </div>
           </nav>
         </div>
 

@@ -2,7 +2,6 @@
 import {reactive, ref} from "vue";
 import GetCodeButton from "@/components/client/common/GetCodeButton.vue";
 import type {FormInstance, FormRules} from "element-plus";
-import {forgetPassword} from "@/api/client/user";
 import {ElMessage} from "element-plus";
 
 
@@ -74,16 +73,16 @@ function forget_fun(){
           password:forgetForm.value.password,
           passwordEn:forgetForm.value.passwordEn,
         }
-        forgetPassword(params).then(res=>{
-          const msg = res.msg;
-          if (res.code ==="200"){
-            ElMessage.success(msg)
-            //关闭对话窗
-            emits(updateDialog, goTo('forget',false))
-          }else {
-            ElMessage.error(msg)
-          }
-        })
+        // forgetPassword(params).then(res=>{
+        //   const msg = res.msg;
+        //   if (res.code ==="200"){
+        //     ElMessage.success(msg)
+        //     //关闭对话窗
+        //     emits(updateDialog, goTo('forget',false))
+        //   }else {
+        //     ElMessage.error(msg)
+        //   }
+        // })
        }
   })
 }
