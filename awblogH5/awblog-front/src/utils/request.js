@@ -1,10 +1,9 @@
 import axios from "axios";
-import {ElLoading, ElMessage} from 'element-plus'
+import {ElLoading, ElMessage, ElMessageBox} from 'element-plus'
 import errorCode from "@/utils/errorCode";
 import {tansParams} from "@/utils/tools/weidey";
 import {getToken} from "@/utils/tools/auth";
 import cache from "@/plugins/cache";
-import {MessageBox} from "@element-plus/icons-vue";
 
 // 全局状态
 import {useUserStore} from "@/store/modules/user";
@@ -56,8 +55,6 @@ function tryHideFullScreenLoading() {
 
 export  function request(config){
 
-
-
     const instance = axios.create({
         // axios中请求配置有baseURL选项，表示请求URL公共部分
         baseURL: baseUrl,
@@ -67,7 +64,6 @@ export  function request(config){
 
     // 添加请求拦截器
     instance.interceptors.request.use(function (config) {
-
 
         // 是否需要设置 token
         const isToken = (config.headers || {}).isToken === false;
@@ -150,7 +146,7 @@ export  function request(config){
         if (code === 401 || code === '401' ) {
             if (!isRelogin.show) {
                 isRelogin.show = true;
-                MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
+                ElMessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', {
                     confirmButtonText: '重新登录',
                     cancelButtonText: '取消',
                     type: 'warning'
@@ -165,16 +161,18 @@ export  function request(config){
             }
             return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
         }
+        // 拒绝服务
+        else if (code === 400) {
+            ElMessage({ message: msg, type: 'warning' })
+            return Promise.reject(new Error(msg))
+        }
+
         // 服务器错误
-        else if (code === 500 || code === '600' ) {
+        else if (code === 50 ) {
             ElMessage({ message: msg, type: 'error' })
             return Promise.reject(new Error(msg))
         }
         //
-        else if (code === 600 || code === '600') {
-            ElMessage({ message: msg, type: 'warning' })
-            return Promise.reject('error')
-        }
         else if (code != 200 ) {
             ElMessage({ message: msg, type: 'error' })
             return Promise.reject('error')

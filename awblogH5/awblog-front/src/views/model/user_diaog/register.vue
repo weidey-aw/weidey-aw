@@ -31,7 +31,7 @@ const registerFrom = ref<registerData>({
   nickname:"",
   email:"",
   code:"",
-  type:"register"
+  type:"REGISTER"
 })
 
 const loginRules = reactive<FormRules<registerData>>({

@@ -64,7 +64,6 @@ export const useUserStore = defineStore("user",{
         GetInfo() {
             return new Promise((resolve, reject) => {
                 getInfo().then(res => {
-                    console.log(res.user);
                     const user = res.user
                     const avatar = (user.avatar === "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : baseUrl + user.avatar;
                     if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组

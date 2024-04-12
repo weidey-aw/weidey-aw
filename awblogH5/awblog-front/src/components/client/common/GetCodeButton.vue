@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import {ElMessage} from "element-plus";
+import {getEmailCode} from "@/api/client/user";
 
 let buttonValue = ref('获取验证码')
 let buttonDisabled = ref(false)
@@ -11,7 +12,7 @@ defineProps({
   email: String,
   type:{
     type: String,
-    default: 'login'
+    default: ''
   }
 })
 
@@ -27,14 +28,12 @@ function getCode(Email,Type) {
     let email = Email;
     let type = Type;
     // 获取验证码
-    // getEmailCode({email,type}).then(res=>{
-    //   if (res.code === "200"){
-    //     ElMessage.success("验证码已发送");
-    //   }else {
-    //     const mag = res.msg;
-    //     ElMessage.error(mag);
-    //   }
-    // })
+    getEmailCode({email,type}).then(res=>{
+      const msg = res.msg;
+      ElMessage.success(msg);
+    }).catch(err=>{
+      console.log(err)
+    })
   }else {
     ElMessage.error("请勿频繁发送验证码");
   }
