@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {inject, reactive, ref} from "vue";
 import GetCodeButton from "@/components/client/common/GetCodeButton.vue";
-import {ElNotification} from "element-plus";
+import {ElMessage, ElNotification} from "element-plus";
 import type {FormInstance, FormRules} from "element-plus";
 import {getCodeImg} from "@/api/client/login";
 
@@ -99,11 +99,6 @@ const getCode = () => {
 }
 
 /**
- *
- */
-
-
-/**
  * 登录成功
  */
 function login_success(){
@@ -134,6 +129,8 @@ function  handleLogin(){
       })
   }else {
    //处理邮箱登录
+    emits(updateDialog, goTo('register',false))
+    ElMessage.info("功能开发中...")
   }
 }
 
@@ -224,7 +221,7 @@ load();
        <!--      -->
       <div  class="login_other" style="display: flex ;justify-content: space-between; padding:10px" >
         <span  style="display: flex" >其他登录： <span><img src="../../../assets/icon/QQ.png" alt="" style="height: 20px;width: 20px ; " >  </span>   </span>
-        <span v-if="isUsernameOrEmail" @click="isUsernameOrEmail=!isUsernameOrEmail"  > 密码登录 </span> <span v-else @click="isUsernameOrEmail=!isUsernameOrEmail" >  邮箱登录 </span>
+        <span v-if="isUsernameOrEmail" @click="isUsernameOrEmail=!isUsernameOrEmail"  > 邮箱登录 </span> <span v-else @click="isUsernameOrEmail=!isUsernameOrEmail" >  密码登录 </span>
       </div>
     </div>
   </div>

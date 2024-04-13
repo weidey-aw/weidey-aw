@@ -144,19 +144,4 @@ public class SysRegisterService
             return  false;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

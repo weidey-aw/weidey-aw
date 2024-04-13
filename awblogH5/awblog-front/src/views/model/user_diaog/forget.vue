@@ -73,6 +73,9 @@ function forget_fun(){
           password:forgetForm.value.password,
           passwordEn:forgetForm.value.passwordEn,
         }
+        emits(updateDialog, goTo('forget',false))
+        ElMessage.info("功能开发中...")
+
         // forgetPassword(params).then(res=>{
         //   const msg = res.msg;
         //   if (res.code ==="200"){

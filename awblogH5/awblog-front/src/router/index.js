@@ -77,7 +77,6 @@ router.beforeEach((to, from, next) =>{
               next({
                 path:'/index'
               })
-              NProgress.done()
               ElMessage.info("登录过期");
               NProgress.done()
             });
@@ -89,9 +88,10 @@ router.beforeEach((to, from, next) =>{
     }
     //没有token
     else {
+      store.FedLogOut().then(()=>{
+        ElMessage.info("请先登录");
+      })
       NProgress.done()
-      NProgress.done()
-      ElMessage.info("请先登录");
       next({
         path:'/index'
       })
