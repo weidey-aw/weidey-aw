@@ -1,5 +1,7 @@
 package com.weidey.framework.web.service;
 
+import com.weidey.common.core.domain.model.EmailBody;
+import com.weidey.common.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.weidey.common.constant.CacheConstants;
@@ -40,17 +42,29 @@ public class SysRegisterService
      */
     public String register(RegisterBody registerBody)
     {
-        String msg = "", username = registerBody.getUsername(), password = registerBody.getPassword();
+        String msg = "",
+                username = registerBody.getUsername(),
+                password = registerBody.getPassword(),
+                nikeName = registerBody.getNikeName(),
+                email = registerBody.getEmail();
         SysUser sysUser = new SysUser();
         sysUser.setUserName(username);
-
+        sysUser.setEmail(email);
         // 验证码开关
         boolean captchaEnabled = configService.selectCaptchaEnabled();
         if (captchaEnabled)
         {
-            validateCaptcha(username, registerBody.getCode(), registerBody.getUuid());
-        }
+            // 使用图片验证码
+            // validateCaptcha(username, registerBody.getCode(), registerBody.getUuid());
 
+            // 使用邮箱验证码
+            if (!verifyCode("REGISTER", email, registerBody.getEmailCode())){
+                 throw new ServiceException("邮箱验证码错误",400);
+            }
+        }
+        if(StringUtils.isEmpty(nikeName)){
+            msg = "昵称不能为空";
+        }
         if (StringUtils.isEmpty(username))
         {
             msg = "用户名不能为空";
@@ -73,9 +87,13 @@ public class SysRegisterService
         {
             msg = "保存用户'" + username + "'失败，注册账号已存在";
         }
+        else if (!userService.checkEmailUnique(sysUser))
+        {
+            msg = "保存用户'" + email + "'失败，注册账号已存在";
+        }
         else
         {
-            sysUser.setNickName(username);
+            sysUser.setNickName(nikeName);
             sysUser.setPassword(SecurityUtils.encryptPassword(password));
             boolean regFlag = userService.registerUser(sysUser);
             if (!regFlag)
@@ -112,4 +130,33 @@ public class SysRegisterService
             throw new CaptchaException();
         }
     }
+
+
+    /**
+     * 校验验证码
+     */
+    public Boolean verifyCode(String emailType, String email, String code) {
+        //查询缓存
+        try {
+            EmailBody emailCache =  redisCache.getCacheObject(emailType + ":" + email);
+            return emailCache.getCode().equals(code);
+        }catch ( Exception e){
+            return  false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

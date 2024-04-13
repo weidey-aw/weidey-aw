@@ -2,8 +2,9 @@
 
 import {ref} from "vue";
 import {reactive} from "vue";
-import {ElNotification, FormInstance, FormRules} from "element-plus";
+import {ElMessage, ElNotification, FormInstance, FormRules} from "element-plus";
 import GetCodeButton from "@/components/client/common/GetCodeButton.vue";
+import {register} from "@/api/client/login.js";
 const updateDialog = 'update:dialog';
 const emits = defineEmits([updateDialog]);
 const registerRef = ref<FormInstance>();
@@ -77,31 +78,27 @@ function register_fun(){
   registerRef.value.validate((valid:boolean)=>{
     if (valid) {
       let data = {
+        code:"",
+        email:registerFrom.value.email,
+        emailCode:registerFrom.value.code,
+        emailType:registerFrom.value.type,
+        nikeName:registerFrom.value.nickname,
         username:registerFrom.value.username,
         password:registerFrom.value.password,
-        passwords:registerFrom.value.passwords,
-        nickname:registerFrom.value.nickname,
-        email:registerFrom.value.email,
-        code:registerFrom.value.code
+        uuid:""
       }
-      // registerEmailApi(data).then(res=>{
-      //   if (res.code === "200"){
-      //     login_success(res)
-      //   }else {
-      //     const mag = res.msg;
-      //     ElMessage.error(mag);
-      //   }
-      // })
+      register(data).then(res=>{
+        const msg = res.msg
+          login_success();
+          ElMessage.success(msg);
+      })
     }
   })
 }
 
-function login_success(res){
-  localStorage.setItem("user",JSON.stringify(res.data)) //保存用户信息到浏览器
-  localStorage.setItem("token",JSON.stringify(res.data.token)) //保存用户信息到浏览器
-  localStorage.setItem("tokenStartTime", String(new Date().getTime()))  //设置页面超时时间
+function login_success(){
   emits(updateDialog, goTo('login',false))
-  ElNotification( {title:"Success", message: '登录成功',type: 'success' })
+  ElNotification( {title:"Success", message: '注册成功',type: 'success' })
 }
 
 

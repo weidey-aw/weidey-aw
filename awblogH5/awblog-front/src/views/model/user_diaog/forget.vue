@@ -36,7 +36,7 @@ const  forgetForm = ref<forgetFormData>({
   phone:"",
   password:"",
   passwordEn:"",
-  type:"forget"
+  type:"FORGET_PASS"
 });
 
 

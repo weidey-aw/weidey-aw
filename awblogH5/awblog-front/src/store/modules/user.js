@@ -1,6 +1,10 @@
 import {getToken, removeToken, setToken} from "@/utils/tools/auth";
 import {getInfo, login, logout} from "@/api/client/login";
 import { defineStore } from 'pinia'
+import defUser from "@/assets/img/defUser.png"
+
+
+
 // 环境配置
 const env = import.meta.env;
 let baseUrl= env.VITE_APP_APT_BASEURL;
@@ -65,7 +69,7 @@ export const useUserStore = defineStore("user",{
             return new Promise((resolve, reject) => {
                 getInfo().then(res => {
                     const user = res.user
-                    const avatar = (user.avatar === "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : baseUrl + user.avatar;
+                    const avatar = (user.avatar === "" || user.avatar == null) ? defUser : baseUrl + user.avatar;
                     if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
                         this.roles  =res.roles;
                         this.permissions = res.permissions;

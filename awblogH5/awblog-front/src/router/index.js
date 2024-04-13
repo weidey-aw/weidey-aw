@@ -45,13 +45,17 @@ const router = createRouter({
 
 
 NProgress.configure({ showSpinner: false })
-const whiteList = ['/index',"/login","/empty","/index/home"]
+const whiteList = ['/index',"/login","/empty","/index/home","/404"]
 router.beforeEach((to, from, next) =>{
   const store = useUserStore();
   // 设置页面标题
   document.title = (to.meta.title ? to.meta.title : '');
   //设置页面切换进度条
   NProgress.start();
+  // 如果没有匹配到任何路由，重定向到404页面
+  if (to.matched.length === 0) {
+    next('/404');
+  }
   // 判断是否访问白名单
   if (whiteList.includes(to.path)){
     NProgress.done()
