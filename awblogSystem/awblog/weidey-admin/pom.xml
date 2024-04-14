@@ -60,6 +60,10 @@
             <groupId>com.weidey</groupId>
             <artifactId>weidey-generator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.weidey</groupId>
+            <artifactId>weidey-blog</artifactId>
+        </dependency>
 
     </dependencies>
 

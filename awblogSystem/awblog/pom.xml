@@ -169,6 +169,12 @@
                 <artifactId>weidey-common</artifactId>
                 <version>${weidey.version}</version>
             </dependency>
+           <!--博客模块 -->
+            <dependency>
+                <groupId>com.weidey</groupId>
+                <artifactId>weidey-blog</artifactId>
+                <version>${weidey.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
@@ -180,6 +186,7 @@
         <module>weidey-quartz</module>
         <module>weidey-generator</module>
         <module>weidey-common</module>
+        <module>weidey-blog</module>
     </modules>
     <packaging>pom</packaging>
 
