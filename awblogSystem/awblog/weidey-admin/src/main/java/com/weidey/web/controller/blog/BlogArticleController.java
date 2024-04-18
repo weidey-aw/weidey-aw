@@ -2,6 +2,8 @@ package com.weidey.web.controller.blog;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,18 @@ public class BlogArticleController extends BaseController
     @PreAuthorize("@ss.hasPermi('blog:article:list')")
     @GetMapping("/list")
     public TableDataInfo list(BlogArticle blogArticle)
+    {
+        startPage();
+        List<BlogArticle> list = blogArticleService.selectBlogArticleList(blogArticle);
+        return getDataTable(list);
+    }
+
+    /**
+     * 前台查询博客文章 允许匿名查询
+     */
+    @ApiOperation("前台查询博客文章")
+    @GetMapping("/select/article")
+    public TableDataInfo selectArticle(BlogArticle blogArticle)
     {
         startPage();
         List<BlogArticle> list = blogArticleService.selectBlogArticleList(blogArticle);

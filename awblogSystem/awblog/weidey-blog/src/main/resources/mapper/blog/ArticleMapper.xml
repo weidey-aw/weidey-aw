@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weidey.blog.mapper.ArticleMapper">
+
+    <resultMap type="BlogArticle" id="BlogArticleResult">
+        <result property="id"    column="id"    />
+        <result property="uid"    column="uid"    />
+        <result property="title"    column="title"    />
+        <result property="synopsis"    column="synopsis"    />
+        <result property="content"    column="content"    />
+        <result property="covers"    column="covers"    />
+        <result property="publicize"    column="publicize"    />
+        <result property="views"    column="views"    />
+        <result property="tags"    column="tags"    />
+        <result property="artGroup"    column="art_group"    />
+        <result property="remark"    column="remark"    />
+        <result property="audit"    column="audit"    />
+        <result property="json"    column="json"    />
+        <result property="text"    column="text"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="deleteTime"    column="delete_time"    />
+    </resultMap>
+    <select id="getArticlePage" resultMap="BlogArticleResult">
+        SELECT  id,  uid, title,covers,tags,views,art_group,remark,publicize FROM blog_article
+        ORDER BY
+            publicize
+        DESC
+    </select>
+    <select id="getArticleDetail" resultType="com.weidey.blog.domain.BlogArticle">
+      <include refid="com.weidey.blog.mapper.BlogArticleMapper.selectBlogArticleVo"></include>
+        WHERE id = #{id}
+    </select>
+</mapper>

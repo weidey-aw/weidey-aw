@@ -1,6 +1,7 @@
 <script>
 import Empty from "@/views/container/tables/empty.vue";
 import {ChatLineSquare, Clock, Pointer, View, ZoomIn} from "@element-plus/icons-vue";
+import {getArticlePage} from "@/api/client/atlas";
 
 export default {
   name: "articled",
@@ -19,13 +20,9 @@ export default {
   methods:{
     //请求文章数据
     getArticleList(){
-      // selectPageArticles(0,4).then(res=>{
-      // if(res.code==200){
-      //   this.dataArticle = res.data.records;
-      //  }else if (this.dataArticle!=null){
-      //   this.isData =true;
-      // }
-      // })
+      getArticlePage().then(res=>{
+        console.log(res)
+      })
     },
     //跳到详细页面
     articleToDetail(id){
