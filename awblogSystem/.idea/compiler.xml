@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="weidey-system" />
+        <module name="weidey-generator" />
+        <module name="weidey-framework" />
+        <module name="weidey-blog" />
+        <module name="weidey-common" />
+        <module name="weidey-admin" />
+        <module name="weidey-quartz" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="weidey" target="1.8" />
+      <module name="weidey-admin" target="1.8" />
+      <module name="weidey-blog" target="1.8" />
+      <module name="weidey-common" target="1.8" />
+      <module name="weidey-framework" target="1.8" />
+      <module name="weidey-generator" target="1.8" />
+      <module name="weidey-quartz" target="1.8" />
+      <module name="weidey-system" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

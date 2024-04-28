@@ -3,7 +3,10 @@ import {request} from "@/utils/request";
 
 export function getArticlePage() {
   return request({
-    url: 'select/article/page',
+    url: '/article/select/page',
+    headers: {
+      isToken: false
+    },
     method: 'get',
   })
 }

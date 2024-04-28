@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/awblogSystem.iml" filepath="$PROJECT_DIR$/.idea/awblogSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey.iml" filepath="$PROJECT_DIR$/awblog/weidey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-admin/weidey-admin.iml" filepath="$PROJECT_DIR$/awblog/weidey-admin/weidey-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-blog/weidey-blog.iml" filepath="$PROJECT_DIR$/awblog/weidey-blog/weidey-blog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-common/weidey-common.iml" filepath="$PROJECT_DIR$/awblog/weidey-common/weidey-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-framework/weidey-framework.iml" filepath="$PROJECT_DIR$/awblog/weidey-framework/weidey-framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-generator/weidey-generator.iml" filepath="$PROJECT_DIR$/awblog/weidey-generator/weidey-generator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-quartz/weidey-quartz.iml" filepath="$PROJECT_DIR$/awblog/weidey-quartz/weidey-quartz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/awblog/weidey-system/weidey-system.iml" filepath="$PROJECT_DIR$/awblog/weidey-system/weidey-system.iml" />
+    </modules>
+  </component>
+</project>

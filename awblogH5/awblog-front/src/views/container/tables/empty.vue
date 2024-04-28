@@ -1,7 +1,6 @@
-<script>
-export default {
-  name: "empty"
-}
+<script setup>
+
+
 </script>
 
 <template>

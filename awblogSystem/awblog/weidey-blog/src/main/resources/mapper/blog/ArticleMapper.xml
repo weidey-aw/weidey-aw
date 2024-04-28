@@ -24,7 +24,8 @@
         <result property="deleteTime"    column="delete_time"    />
     </resultMap>
     <select id="getArticlePage" resultMap="BlogArticleResult">
-        SELECT  id,  uid, title,covers,tags,views,art_group,remark,publicize FROM blog_article
+        SELECT  id,  uid, title,synopsis,covers,tags,views,art_group,remark,publicize,update_time,create_time FROM blog_article
+         WHERE audit=1
         ORDER BY
             publicize
         DESC

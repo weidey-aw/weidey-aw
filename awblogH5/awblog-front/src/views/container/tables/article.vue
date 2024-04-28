@@ -1,59 +1,59 @@
-<script>
+<script setup >
 import Empty from "@/views/container/tables/empty.vue";
-import {ChatLineSquare, Clock, Pointer, View, ZoomIn} from "@element-plus/icons-vue";
+import {ZoomIn} from "@element-plus/icons-vue";
 import {getArticlePage} from "@/api/client/atlas";
+import {useRouter} from "vue-router";
+import {ref} from "vue";
+const router = useRouter();
+// 环境配置
+const env = import.meta.env;
+let isData = ref(false);
+const  dataArticle =ref([])
+const baseUrl = env.VITE_APP_APT_BASEURL;
 
-export default {
-  name: "articled",
-  components: {Pointer, ChatLineSquare, Clock, View, ZoomIn, Empty},
-  data(){
-    return{
-      isData:false,
-     dataArticle :[{
-
-     }]
-    }
-  },
-  created(){
-    this.getArticleList()
-  },
-  methods:{
-    //请求文章数据
-    getArticleList(){
-      getArticlePage().then(res=>{
-        console.log(res)
+//请求文章数据
+function getArticleList(){
+        getArticlePage().then(res=>{
+         dataArticle.value = res.rows;
+           isData.value = true;
       })
-    },
-    //跳到详细页面
-    articleToDetail(id){
-    }
-  }
 }
+//跳转到文章详情
+function articleToDetail(id){
+        router.push({
+          path:"/index/article",
+          query:{
+            id:id
+         }
+        })
+}
+//图片链接拼接
+function articleImg(baseUrl,covers){
+      return baseUrl+covers;
+}
+getArticleList();
 </script>
+
 <template>
   <div>
   <div v-if="isData" >
-    <el-card class="box-card"  v-for="(item,index) in dataArticle" :key="dataArticle.id" @click="articleToDetail(item.id)"   style=" margin-bottom: 30px;" >
-      <div class="row box-card"  >
-       <div  class="col-5  ">
-          <div  class="img"  >
-             <img :src="item.coverImg" alt="404NotFound"/>
+    <el-card v-for="(item,index) in dataArticle" :key="dataArticle.id" @click="articleToDetail(item.id)"   style=" margin-bottom: 30px;" >
+      <div class="subject-card row"  >
+       <div  class="col-5">
+          <div class="img"  >
+             <img :src="articleImg(baseUrl,item.covers)" alt="404NotFound"/>
           </div>
       </div>
        <div class="col-7 p-0 " >
        <div class="contents" >
         <div class="title" >{{item.title}}</div>
         <div class="align-items-center" >
-          <span> <el-icon><Pointer /></el-icon> 点赞 : {{item.upvote}} </span>
-          <span><el-icon><ChatLineSquare/></el-icon> 评论 : {{item.review}} </span>
-          <span> <el-icon><Clock /></el-icon> 时间 : {{item.creation}}  </span>
-          <span><el-icon><View /></el-icon> 访问 : {{item.visit}} </span>
         </div>
          <div class="align-items-center" >
-           <p> {{item.context}}</p>
+           <p> {{item.synopsis}}</p>
          </div>
          <div class="align-items-center" >
-           <div> <el-button  @click="articleToDetail(item.id)" color="#f3d19e"><span style="color:#e6a23c;width: 400px " ><el-icon><ZoomIn /></el-icon >查看更多</span> </el-button> </div>
+           <div class="" style="width: 80%"> <el-button color="#f3d19e" class="w-100" style="" ><span style="color:#e6a23c;" ><el-icon><ZoomIn /></el-icon >查看更多</span> </el-button> </div>
          </div>
        </div>
       </div>
@@ -67,43 +67,5 @@ export default {
 </template>
 
 <style scoped>
-.box-card{
-  max-width: 100%;
-  width: max-content;
-  display: flex;
-}
 
-.img{
-  max-width: 100%;
-  max-height: 100%;
-  img{
-    width: 250px;
-    height: 200px;
-  }
-}
-.contents{
-  .title{
-    font-weight: 700!important;
-    font-size: 20px;
-  }
-  .align-items-center{
-    padding-top: .75rem!important;
-    padding-bottom: .75rem!important;
-
-    span{
-      margin-left: 10px;
-      //padding-right: 10px;
-      font-size: 14px;
-    }
-    p{
-      width: 445px;
-      height: 45px;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  }
-}
 </style>

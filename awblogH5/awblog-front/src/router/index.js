@@ -21,7 +21,8 @@ const router = createRouter({
       meta:{"title":"阿伟博客"},
       children:[
         { path:'/index/home',name: 'Home',component: () => import(/* webpackChunkName: "about" */ '../views/page/Container.vue'),meta:{title:"首页"}},
-        { path: '/index/personal',name: 'Personal',component: () => import(/* webpackChunkName: "about" */ '../views/page/Personal.vue'),meta:{title:"个人中心"}}
+        { path: '/index/personal',name: 'Personal',component: () => import(/* webpackChunkName: "about" */ '../views/page/Personal.vue'),meta:{title:"个人中心"}},
+        { path: '/index/article',name: 'Article',component: () => import(/* webpackChunkName: "about" */ '../views/page/ArticleDetail.vue'),meta:{title:"文章"}}
       ]
     },
     {
@@ -45,7 +46,7 @@ const router = createRouter({
 
 
 NProgress.configure({ showSpinner: false })
-const whiteList = ['/index',"/login","/empty","/index/home","/404"]
+const whiteList = ['/index',"/login","/empty","/index/home","/index/article","/404"]
 router.beforeEach((to, from, next) =>{
   const store = useUserStore();
   // 设置页面标题

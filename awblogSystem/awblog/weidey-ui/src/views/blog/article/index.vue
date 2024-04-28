@@ -295,7 +295,7 @@ export default {
         json: null,
         text: null,
         createTime: null,
-        updateTime: null,
+        updateTime: Date.now(),
         deleteTime: null
       };
       this.resetForm("form");

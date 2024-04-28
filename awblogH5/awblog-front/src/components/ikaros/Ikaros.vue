@@ -1,7 +1,9 @@
 <script setup>
 import { ref} from "vue";
 import audio from "@/assets/audio/audio.json"
+import {useUserStore} from "@/store/modules/user";
 
+const store = useUserStore();
 const ikaros = ref(null);
 const chat = ref(null);
 const chatText = ref(null);
@@ -16,23 +18,16 @@ const chatData =  ref({
 })
 // 加载
 const load = () => {
-  // let token = localStorage.getItem('token');
-  // if (token) {
-  //   // verifyToken().then(res => {
-  //   //   if (res.code==='200'){
-  //   //     if (res.data ==='admin' ){
-  //   //       isShow = true;
-  //   //     }
-  //   //    }
-  //   // })
-  // }
+  const role =  store.roles;
+   if(role.includes("admin")){
+     isShow=true;
+   }
 }
 load();
 //点击
 const  clickChat=()=>{
   //防止多击
   if (isFinish){
-
     isFinish = false
     //1.点击上下抖动
     ikaros.value.classList.toggle('animationend')
@@ -112,7 +107,7 @@ function getRandomNumber(min, max) {
 
 <style>
 
-// 抖动动画
+ /*抖动动画*/
 .animationend{
   animation: shake 0.5s infinite;
 }

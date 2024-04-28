@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import {inject, reactive, ref} from "vue";
-import GetCodeButton from "@/components/client/common/GetCodeButton.vue";
+import GetCodeButton from "/src/components/client/common/GetCodeButton.vue";
 import {ElMessage, ElNotification} from "element-plus";
 import type {FormInstance, FormRules} from "element-plus";
-import {getCodeImg} from "@/api/client/login";
+import {getCodeImg} from "/src/api/client/login";
 
 // 全局状态
-import {useUserStore} from "@/store/modules/user";
+import {useUserStore} from "/src/store/modules/user";
 const store = useUserStore();
 
 const loginRef = ref<FormInstance>();
@@ -55,16 +55,23 @@ const  emailLoginFrom = ref<emailLoginFromData>({
 });
 
 
+
+
+
+
+
+
+
 const loginRules = reactive<FormRules<loginFormData>>({
   username: [
       { required: true, message: '请输入账号', trigger: 'blur' },
       { min: 4, max: 16, message: '用户名的长度只能在4到16', trigger: 'blur' },
-      { pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '用户名只能是字母，数字，下划线，减号',trigger: 'change' }
+      { pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '用户名只能是字母，数字，下划线，减号',trigger: 'blur' },
   ],
   password: [
        { required: true, message: '请输入密码', trigger: 'blur' },
        { min: 6, max: 24, message: '密码的长度只能在4到24', trigger: 'blur' },
-       { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,24}$/, message: '密码必须是由6-24位字母+数字组成',trigger: 'change' }
+       { pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,24}$/, message: '密码必须是由6-24位字母+数字组成',trigger: 'blur' }
   ],
   code:[
     { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -74,12 +81,12 @@ const loginRules = reactive<FormRules<loginFormData>>({
 const emailRules = reactive<FormRules<emailLoginFromData>>({
   email: [
       { required: true, message: '请输入邮箱', trigger: 'blur' },
-      { pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/, message: '请输入正确的邮箱格式',trigger: 'change' }
+      { pattern: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/, message: '请输入正确的邮箱格式',trigger: 'blur' }
   ],
   code: [
       {  required: true ,message: '请输入验证码', trigger: 'blur' },
       { min: 4, max: 6, message: '请输入正确格式', trigger: 'blur' },
-      { pattern: /^\d+$/, message: '请输入数字',trigger: 'change' }
+      { pattern: /^\d+$/, message: '请输入数字',trigger: 'blur' }
   ],
 
 })
@@ -109,6 +116,7 @@ function login_success(){
   refreshPage() //刷新页面
 }
 
+
 /**
  * 点击登录按钮
  */
@@ -134,12 +142,34 @@ function  handleLogin(){
   }
 }
 
+
+
+
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  await formEl.validate((valid, fields) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!', fields)
+    }
+  })
+}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
+
+
+
 /**
  * 弹窗切换
  */
 function goTo(dialogValue,dialogVisible){
-  dialog.dialogValue =dialogValue
-  dialog.dialogVisible =dialogVisible
+  dialog.value.dialogValue =dialogValue
+  dialog.value.dialogVisible =dialogVisible
   return  dialog
 }
 
@@ -233,9 +263,11 @@ load();
   height: 100%;
   max-height: 38px;
   float: right;
-  img {
-    cursor: pointer;
-    vertical-align: middle;
-  }
+
+}
+
+img {
+  cursor: pointer;
+  vertical-align: middle;
 }
 </style>
